@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#10cd3F</color>
+    <color name="colorPrimaryDark">#03961F</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="Transparent">#00FFFFFF</color>
+    <color name="colorSet">#1F3658</color>
+    <color name="finger">#2F80ED</color>
+    <color name="retake">#FB0303</color>
+</resources>
