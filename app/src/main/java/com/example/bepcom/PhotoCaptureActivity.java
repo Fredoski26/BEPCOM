@@ -26,10 +26,10 @@ public class PhotoCaptureActivity extends AppCompatActivity {
     }
 
     private void inits() {
-        userImage = (ImageView) findViewById(R.id.userImage);
-        done =  (AppCompatButton) findViewById(R.id.done);
-        back = (AppCompatButton) findViewById(R.id.back);
-        retake = (TextView) findViewById(R.id.retakeCapture);
+        userImage = findViewById(R.id.userImage);
+        done = findViewById(R.id.done);
+        back = findViewById(R.id.back);
+        retake = findViewById(R.id.retakeCapture);
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override

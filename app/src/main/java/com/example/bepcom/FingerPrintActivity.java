@@ -7,7 +7,7 @@ import androidx.core.content.ContextCompat;
 
 import android.os.Build;
 import android.os.Bundle;
-import android.view.View;
+
 
 public class FingerPrintActivity extends AppCompatActivity {
  AppCompatButton exit;
@@ -22,13 +22,12 @@ public class FingerPrintActivity extends AppCompatActivity {
     }
 
     private void inits() {
-        exit = (AppCompatButton) findViewById(R.id.exit);
+        exit = findViewById(R.id.exit);
 
-        exit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
+        exit.setOnClickListener(v -> onBackPressed());
+
+
     }
+
+
 }

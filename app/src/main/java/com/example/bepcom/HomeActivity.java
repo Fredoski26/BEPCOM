@@ -32,11 +32,13 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void inits() {
-        userName = (TextView) findViewById(R.id.userName);
-        fingerScanner = (ImageView) findViewById(R.id.fingerScanner);
-        capTure = (ImageView) findViewById(R.id.capture);
-        logOut = (AppCompatButton) findViewById(R.id.logOut);
+        String name = getIntent().getStringExtra("fullName");
+        userName = findViewById(R.id.userName);
+        fingerScanner = findViewById(R.id.fingerScanner);
+        capTure = findViewById(R.id.capture);
+        logOut = findViewById(R.id.logOut);
 
+        userName.setText(name);
         logOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
