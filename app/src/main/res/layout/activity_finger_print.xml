@@ -20,99 +20,166 @@
             android:id="@+id/capture_holder"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal"
+            android:orientation="vertical"
             >
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
 
-                <ImageView
-                    android:id="@+id/Left_Thumb"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:src="@drawable/ion_finger_print"
-                    />
-                <TextView
-                    android:layout_below="@id/Left_Thumb"
+
+                <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:textSize="15sp"
-                    android:textStyle="bold"
-                    android:id="@+id/Left_thumb_text"
-                    android:text="Left Thumb"/>
-            </RelativeLayout>
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                >
+                    >
 
-                <ImageView
-                    android:id="@+id/Left_index"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:src="@drawable/ion_finger_print"
-                    />
-                <TextView
-                    android:layout_below="@id/Left_index"
+                    <ImageView
+                        android:id="@+id/Left_index"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:src="@drawable/ion_finger_print"
+                        />
+                    <TextView
+                        android:layout_below="@id/Left_index"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        android:id="@+id/left_index_text"
+                        android:text="Left Index"/>
+                </RelativeLayout>
+
+                <RelativeLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:textSize="15sp"
-                    android:textStyle="bold"
-                    android:id="@+id/left_index_text"
-                    android:text="Left Index"/>
-            </RelativeLayout>
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                    android:layout_height="wrap_content">
 
-                <ImageView
-                    android:id="@+id/Right_Index"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:src="@drawable/ion_finger_print"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    <ImageView
+                        android:id="@+id/Left_middle"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:src="@drawable/ion_finger_print"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
-                    android:layout_below="@id/Right_Index"
+                    <TextView
+                        android:layout_below="@id/Left_middle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        android:id="@+id/Left_middle_text"
+                        android:text="Left Middle"/>
+                </RelativeLayout>
+
+                <RelativeLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:textSize="15sp"
-                    android:textStyle="bold"
-                    android:id="@+id/right_index_text"
-                    android:text="Right Index"/>
-            </RelativeLayout>
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                    android:layout_height="wrap_content">
 
-                <ImageView
-                    android:id="@+id/right_Thumb"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:src="@drawable/ion_finger_print"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    <ImageView
+                        android:id="@+id/Right_Index"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:src="@drawable/ion_finger_print"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
-                    android:layout_below="@id/right_Thumb"
+                    <TextView
+                        android:layout_below="@id/Right_Index"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        android:id="@+id/right_index_text"
+                        android:text="Right Index"/>
+                </RelativeLayout>
+                <RelativeLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:textSize="15sp"
-                    android:textStyle="bold"
-                    android:id="@+id/right_thumb_text"
-                    android:text="Right Thumb"/>
-            </RelativeLayout>
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/Right_middle"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:src="@drawable/ion_finger_print"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:layout_below="@id/Right_middle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        android:id="@+id/Right_middle_text"
+                        android:text="Right Middle"/>
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/thumbs"
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_gravity="center"
+                android:layout_height="match_parent">
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/Left_Thumb"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:src="@drawable/ion_finger_print"
+                        />
+                    <TextView
+                        android:layout_below="@id/Left_Thumb"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        android:id="@+id/Left_thumb_text"
+                        android:text="Left Thumb"/>
+                </RelativeLayout>
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/right_Thumb"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:src="@drawable/ion_finger_print"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:layout_below="@id/right_Thumb"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        android:id="@+id/right_thumb_text"
+                        android:text="Right Thumb"/>
+                </RelativeLayout>
+            </LinearLayout>
         </LinearLayout>
+
 
 
         <TextView
