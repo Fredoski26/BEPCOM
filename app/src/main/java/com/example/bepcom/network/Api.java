@@ -1,12 +1,7 @@
 package com.example.bepcom.network;
 
-import android.provider.SyncStateContract;
-
 import com.example.bepcom.constant.Constant;
 
-import java.io.IOException;
-
-import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import retrofit2.Retrofit;
@@ -16,14 +11,15 @@ public class Api {
 
     public static Retrofit retrofitMyNodeV1 = null;
 
-    public static String token = "";
-
+    //public static String token = "";
+   public static String token = Constant.token;
 
 
     public static ApiInterface CreateNodeApi() {
+        String tokens = Constant.token;
         OkHttpClient client = new OkHttpClient.Builder().addInterceptor(chain -> {
             Request newRequest = chain.request().newBuilder()
-                    .addHeader("Authorization", "Bearer ")
+                    .addHeader("Authorization", "Bearer " +tokens)
                     //.addHeader("Authorization", "Bearer " + token)
                     .build();
             return chain.proceed(newRequest);

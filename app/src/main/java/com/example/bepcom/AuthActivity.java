@@ -2,12 +2,6 @@ package com.example.bepcom;
 
 import static android.service.controls.ControlsProviderService.TAG;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatButton;
-import androidx.core.content.ContextCompat;
-
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Build;
@@ -18,6 +12,13 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatButton;
+import androidx.core.content.ContextCompat;
+
+import com.example.bepcom.constant.Constant;
 import com.example.bepcom.model.LoginModel;
 import com.example.bepcom.network.Api;
 import com.example.bepcom.network.ApiInterface;
@@ -54,7 +55,6 @@ public class AuthActivity extends AppCompatActivity {
         progressBar = findViewById(R.id.progressBar);
 
         login.setOnClickListener(v -> {
-
             if (fileName.getText().toString().trim().isEmpty()) {
                 fileName.setError("enter file number");
                 Toast.makeText(getBaseContext(), "Enter file number", Toast.LENGTH_LONG).show();
@@ -70,7 +70,6 @@ public class AuthActivity extends AppCompatActivity {
         });
         exit.setOnClickListener(v -> onBackPressed());
 
-
     }
 
 
@@ -78,10 +77,12 @@ public class AuthActivity extends AppCompatActivity {
         login.setVisibility(View.GONE);
         final String fileNumber2 = fileName.getText().toString();
         final String pass2 = pass.getText().toString();
+
         JsonObject object = new JsonObject();
         object.addProperty("file_number", fileNumber2);
         object.addProperty("password", pass2);
-        Toast.makeText(this, "Check " + fileNumber2, Toast.LENGTH_SHORT).show();
+       // Toast.makeText(this, "Your Number " + fileNumber2, Toast.LENGTH_SHORT).show();
+
         ApiInterface api = Api.CreateNodeApi();
         progressBar.setVisibility(View.VISIBLE);
         final Call<LoginModel> loginModelCall = api.getLogin(object);
@@ -94,14 +95,19 @@ public class AuthActivity extends AppCompatActivity {
                     LoginModel loginModel = response.body();
                     assert response.body() != null;
                     if ((response.body().getStatus_code() == 200)) {
+                        Log.d(TAG, "token" + response.body().getToken());
+
                         Intent intent = new Intent(getBaseContext(), HomeActivity.class);
                         intent.putExtra("fullName", loginModel.getPersonal_details().getName());
+                        //intent.putExtra("token", response.body().getToken());
+                        Constant.token = response.body().getToken();
                         startActivity(intent);
-                        // startActivity(new Intent(AuthActivity.this, HomeActivity.class));
                         finish();
+
                     } else {
                         login.setVisibility(View.VISIBLE);
                         progressBar.setVisibility(View.GONE);
+
                         Toast.makeText(AuthActivity.this, "Your login failed! Please verify your credentials and try again", Toast.LENGTH_SHORT).show();
 
                     }
@@ -110,7 +116,7 @@ public class AuthActivity extends AppCompatActivity {
                 if (response.code() == 422) {
                     login.setVisibility(View.VISIBLE);
                     progressBar.setVisibility(View.GONE);
-                    Toast.makeText(AuthActivity.this, "Something went wrong! Check credentials or network and try again", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AuthActivity.this, "Something went wrong! Check and try again", Toast.LENGTH_SHORT).show();
 
                 }
             }

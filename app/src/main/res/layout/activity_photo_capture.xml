@@ -15,20 +15,17 @@
         app:layout_constraintTop_toTopOf="parent"
         android:layout_height="wrap_content">
 
-
         <ImageView
             android:id="@+id/userImage"
-            android:layout_width="200dp"
+            android:layout_width="350dp"
             android:layout_height="200dp"
             android:layout_marginTop="60dp"
-            android:src="@drawable/logo"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            />
+             />
 
         <TextView
-            android:visibility="invisible"
             android:id="@+id/CompletedText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -43,42 +40,36 @@
             app:layout_constraintTop_toBottomOf="@id/userImage" />
 
         <TextView
-            android:id="@+id/takeCapture"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="40dp"
-            android:text="Capture"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:gravity="center"
-            android:textColor="@color/Take_p"
-            android:paddingHorizontal="30dp"
-            android:layout_marginTop="40dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/CompletedText" />
-
-
-        <TextView
-            android:visibility="invisible"
             android:id="@+id/retakeCapture"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="40dp"
-            android:layout_marginTop="40dp"
-            android:gravity="center"
-            android:paddingHorizontal="30dp"
             android:text="Retake"
-            android:textColor="@color/retake"
             android:textSize="20sp"
             android:textStyle="bold"
+            android:gravity="center"
+            android:textColor="@color/retake"
+            android:paddingHorizontal="30dp"
+            android:layout_marginTop="40dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/CompletedText" />
+
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/CompletedText" />
+            app:layout_constraintTop_toBottomOf="@id/retakeCapture"
+            android:layout_marginHorizontal="40dp"
+            android:layout_marginTop="40dp"
+            android:visibility="gone"
+            />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/done"
-            android:visibility="invisible"
             android:layout_width="240dp"
             android:layout_height="50dp"
             android:layout_marginHorizontal="40dp"
@@ -89,6 +80,7 @@
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="20sp"
+            android:visibility="visible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/retakeCapture"
@@ -118,7 +110,7 @@
             android:id="@+id/back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="40dp"
+            android:layout_marginHorizontal="18dp"
             android:layout_marginBottom="30dp"
             android:background="@color/Transparent"
             android:text="Back"
