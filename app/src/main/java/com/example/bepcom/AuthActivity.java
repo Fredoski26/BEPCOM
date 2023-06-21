@@ -103,7 +103,6 @@ public class AuthActivity extends AppCompatActivity {
                         Constant.token = response.body().getToken();
                         startActivity(intent);
                         finish();
-
                     } else {
                         login.setVisibility(View.VISIBLE);
                         progressBar.setVisibility(View.GONE);
