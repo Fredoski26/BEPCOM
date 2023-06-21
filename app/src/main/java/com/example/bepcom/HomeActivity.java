@@ -36,6 +36,7 @@ public class HomeActivity extends AppCompatActivity {
     TextView userName, addCaptureCompleted, addCapture;
     AppCompatButton logOut;
 
+    public String edit;
     public String token = "";
     private static final int REQUEST_IMAGE_CAPTURE = 1;
     private static final int REQUEST_PERMISSION_CAMERA = 2;
@@ -55,7 +56,8 @@ public class HomeActivity extends AppCompatActivity {
     private void inits() {
         String name = getIntent().getStringExtra("fullName");
         String message = getIntent().getStringExtra("message");
-        // token = getIntent().getStringExtra("token");
+
+
 
         addCapture = findViewById(R.id.addCapture);
         addCaptureCompleted = findViewById(R.id.addCaptureCompleted);
@@ -68,10 +70,6 @@ public class HomeActivity extends AppCompatActivity {
 
         //Toast.makeText(this, ""+token, Toast.LENGTH_SHORT).show();
          userName.setText(Constant.names);
-
-
-
-
 
 
         logOut.setOnClickListener(v -> onBackPressed()
@@ -87,6 +85,7 @@ public class HomeActivity extends AppCompatActivity {
 
         fingerScanner.setOnClickListener(v -> {
             startActivity(new Intent(getBaseContext(), FingerPrintActivity.class));
+            finish();
         });
 
         if (message == null){
@@ -137,7 +136,7 @@ public class HomeActivity extends AppCompatActivity {
                        Intent intent = new Intent(getBaseContext(), PhotoCaptureActivity.class);
                        intent.putExtra("photo", base64Image);
                        //Log.d(TAG, "check  "+base64Image);
-                       intent.putExtra("token", token);
+                       //intent.putExtra("token", token);
                        startActivity(intent);
                        finish();
                        this.setResult(RESULT_OK);

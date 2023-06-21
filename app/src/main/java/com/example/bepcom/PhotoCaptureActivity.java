@@ -75,9 +75,11 @@ public class PhotoCaptureActivity extends AppCompatActivity {
         userImage.setImageBitmap(imageBitmap);
 
 
-        back.setOnClickListener(v -> {startActivity(new Intent(getBaseContext(), HomeActivity.class));
-        }
-        );
+
+        back.setOnClickListener(v -> {
+            startActivity(new Intent(getBaseContext(), HomeActivity.class));
+        });
+
         done.setOnClickListener(v -> apiUploadPassport());
         retake.setOnClickListener(v -> {
             startActivity(new Intent(getBaseContext(), HomeActivity.class));
@@ -117,20 +119,24 @@ public class PhotoCaptureActivity extends AppCompatActivity {
 
              if(response.isSuccessful() && response.errorBody() == null){
                  assert response.body() != null;
-                 if((response.body().getStatus_code() == 200)){
+               try {
+                   if((response.body().getStatus_code() == 200)){
 
-                     Intent intent = new Intent(getBaseContext(), HomeActivity.class);
-                     intent.putExtra("message", response.body().getMessage());
-                     startActivity(intent);
-                     finish();
+                       Intent intent = new Intent(getBaseContext(), HomeActivity.class);
+                       intent.putExtra("message", response.body().getMessage());
+                       startActivity(intent);
+                       finish();
+                       Toast.makeText(PhotoCaptureActivity.this, ""+response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                   }else {
+                       done.setVisibility(View.VISIBLE);
+                       progressBar.setVisibility(View.GONE);
+                       Toast.makeText(PhotoCaptureActivity.this, "Failed to Upload please try again", Toast.LENGTH_SHORT).show();
 
-                     Toast.makeText(PhotoCaptureActivity.this, ""+response.body().getMessage(), Toast.LENGTH_SHORT).show();
-                 }else {
-                     done.setVisibility(View.VISIBLE);
-                     progressBar.setVisibility(View.GONE);
-                     Toast.makeText(PhotoCaptureActivity.this, "Failed to Upload please try again", Toast.LENGTH_SHORT).show();
+                   }
 
-                 }
+               }catch (Exception e){
+                   Log.d("passportModel",e.getMessage());
+               }
              }
 
                 if (response.code() == 422) {
@@ -143,7 +149,8 @@ public class PhotoCaptureActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(@NonNull Call<PassportModel> call, @NonNull Throwable t) {
-               t.printStackTrace();
+                Toast.makeText(PhotoCaptureActivity.this, "Something went wrong! please try again", Toast.LENGTH_SHORT).show();
+                t.printStackTrace();
                 Log.d("Throwable  ------- > ", t.toString());
                 done.setVisibility(View.VISIBLE);
                 progressBar.setVisibility(View.GONE);

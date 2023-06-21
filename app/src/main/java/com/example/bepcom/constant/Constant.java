@@ -8,6 +8,8 @@ public class Constant {
     public static final String URLMyV3 = URLBase;
     public static String token;
     public static String names;
+
+    public static String fileNumber;
     public static SharedPreferences sharedPreferences;
     public static SharedPreferences.Editor sharedPreferencesEditor;
 }

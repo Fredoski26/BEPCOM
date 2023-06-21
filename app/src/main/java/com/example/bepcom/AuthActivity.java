@@ -94,23 +94,31 @@ public class AuthActivity extends AppCompatActivity {
                 if (response.isSuccessful() && response.errorBody() == null) {
                     LoginModel loginModel = response.body();
                     assert response.body() != null;
-                    if ((response.body().getStatus_code() == 200)) {
-                        Log.d(TAG, "token" + response.body().getToken());
+                  try {
+                      if ((response.body().getStatus_code() == 200)) {
+                          Log.d(TAG, "token" + response.body().getToken());
 
-                        Intent intent = new Intent(getBaseContext(), HomeActivity.class);
-                        intent.putExtra("fullName", loginModel.getPersonal_details().getName());
-                        //intent.putExtra("token", response.body().getToken());
-                        Constant.token = response.body().getToken();
-                        Constant.names = loginModel.getPersonal_details().getName();
-                        startActivity(intent);
-                        finish();
-                    } else {
-                        login.setVisibility(View.VISIBLE);
-                        progressBar.setVisibility(View.GONE);
+                          Intent intent = new Intent(getBaseContext(), HomeActivity.class);
+                          intent.putExtra("fullName", loginModel.getPersonal_details().getName());
+                          //intent.putExtra("token", response.body().getToken());
+                          Constant.token = response.body().getToken();
+                          Constant.names = loginModel.getPersonal_details().getName();
+                          Constant.fileNumber = loginModel.getPersonal_details().getFile_number();
+                          startActivity(intent);
+                          finish();
 
-                        Toast.makeText(AuthActivity.this, "Your login failed! Please verify your credentials and try again", Toast.LENGTH_SHORT).show();
+                      } else {
+                          login.setVisibility(View.VISIBLE);
+                          progressBar.setVisibility(View.GONE);
 
-                    }
+                          Toast.makeText(AuthActivity.this, "Your login failed! Please verify your credentials and try again", Toast.LENGTH_SHORT).show();
+
+                      }
+
+                  }catch (Exception e){
+                      Log.d("loginModelCall",e.getMessage());
+
+                  }
                 }
 
                 if (response.code() == 422) {

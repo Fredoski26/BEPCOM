@@ -11,7 +11,7 @@ public class Api {
 
     public static Retrofit retrofitMyNodeV1 = null;
 
-    public static String tokenn = "";
+    //public static String token = "";
    public static String token = Constant.token;
 
 
