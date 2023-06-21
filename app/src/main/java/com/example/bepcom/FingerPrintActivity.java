@@ -36,6 +36,7 @@ import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.util.Dictionary;
+import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Map;
 
@@ -67,8 +68,8 @@ public class FingerPrintActivity extends AppCompatActivity {
     Button Right_middle_text;
     private FingerPrintActivity mainContext;
 
-    Dictionary<String, Bitmap> fingerprintImage = new Hashtable<>();
-    Dictionary<String, String> fingerBase64 = new Hashtable<>();
+    Map<String, Bitmap> fingerprintImage = new HashMap<>();
+    Map<String, String> fingerBase64 = new HashMap<>();
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -481,21 +482,26 @@ public class FingerPrintActivity extends AppCompatActivity {
         });
 
         done.setOnClickListener(v -> {
+
            // apiFingerPrintUpload();
         });
     }
 
 
+    private String convertJson1(Map<String, Bitmap> dictionary) {
+        JSONObject jsonObject = new JSONObject(dictionary);
+        String jsonString = jsonObject.toString();
+        return jsonString;
+    }
     private String convertJson(Map<String, String> dictionary) {
         JSONObject jsonObject = new JSONObject(dictionary);
         String jsonString = jsonObject.toString();
         return jsonString;
     }
 
-
     private void apiFingerPrintUpload() {
-        String dataImage = "data:image/jpeg;base64,";
-        String imageBase64 = dataImage + fingerBase64;
+        String dataImage = convertJson1(fingerprintImage);
+        String imageBase64 = convertJson(fingerBase64);
         done.setVisibility(View.GONE);
 
         ApiInterface api = Api.CreateNodeApi();
