@@ -75,7 +75,6 @@ public class PhotoCaptureActivity extends AppCompatActivity {
         userImage.setImageBitmap(imageBitmap);
 
 
-
         back.setOnClickListener(v -> {startActivity(new Intent(getBaseContext(), HomeActivity.class));
         }
         );
@@ -96,19 +95,6 @@ public class PhotoCaptureActivity extends AppCompatActivity {
         byte[] decodedBytes = Base64.decode(base64Image, Base64.DEFAULT);
         return BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
     }
-
-   /* private  MultipartBody.Part createMultipartFromBase64() {
-        // Decode the Base64 image string
-
-        byte[] decodedImage = Base64.decode(base64Image, Base64.DEFAULT);
-
-        // Create a RequestBody from the decoded image bytes
-        RequestBody requestBody = RequestBody.create(MediaType.parse("image/*"), decodedImage);
-
-        // Create a MultipartBody.Part using the RequestBody
-        return MultipartBody.Part.createFormData("image", "image.jpg", requestBody);
-    }*/
-
 
     private void apiUploadPassport() {
         String dataImage = "data:image/jpeg;base64,";
@@ -136,6 +122,7 @@ public class PhotoCaptureActivity extends AppCompatActivity {
                      Intent intent = new Intent(getBaseContext(), HomeActivity.class);
                      intent.putExtra("message", response.body().getMessage());
                      startActivity(intent);
+                     finish();
 
                      Toast.makeText(PhotoCaptureActivity.this, ""+response.body().getMessage(), Toast.LENGTH_SHORT).show();
                  }else {

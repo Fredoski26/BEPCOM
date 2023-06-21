@@ -101,6 +101,7 @@ public class AuthActivity extends AppCompatActivity {
                         intent.putExtra("fullName", loginModel.getPersonal_details().getName());
                         //intent.putExtra("token", response.body().getToken());
                         Constant.token = response.body().getToken();
+                        Constant.names = loginModel.getPersonal_details().getName();
                         startActivity(intent);
                         finish();
                     } else {
