@@ -18,6 +18,9 @@ import com.suprema.CaptureResponder;
 import com.suprema.IBioMiniDevice;
 import com.suprema.IUsbEventHandler;
 
+import java.util.Dictionary;
+import java.util.Hashtable;
+
 public class FingerPrintActivity extends AppCompatActivity {
     AppCompatButton exit;
     private BioMiniFactory mBioMiniFactory=null;
@@ -27,13 +30,21 @@ public class FingerPrintActivity extends AppCompatActivity {
     ImageView Left_thumb;
     ImageView right_index;
     ImageView left_index;
+    ImageView right_middle;
+    ImageView left_middle;
 
     TextView right_thumb_text;
     TextView left_thumb_text;
     TextView right_index_text;
     TextView left_index_text;
+
+
+    TextView Left_middle_text;
+    TextView Right_middle_text;
     private FingerPrintActivity mainContext;
 
+    Dictionary<String,Bitmap> fingerprintImage= new Hashtable<>();
+    Dictionary<String,String> fingerBase64= new Hashtable<>();
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +60,8 @@ public class FingerPrintActivity extends AppCompatActivity {
         left_thumb_text= (TextView) findViewById(R.id.Left_thumb_text);
         left_index_text= (TextView) findViewById(R.id.left_index_text);
         right_index_text= (TextView) findViewById(R.id.right_index_text);
+        Right_middle_text= (TextView) findViewById(R.id.Right_middle_text);
+        Left_middle_text= (TextView) findViewById(R.id.Left_middle_text);
         mainContext=this;
         boolean b = false;
         exit.setOnClickListener(new View.OnClickListener() {
@@ -96,7 +109,9 @@ public class FingerPrintActivity extends AppCompatActivity {
                                         if (bitmap != null) {
                                             ImageView iv = findViewById(R.id.right_Thumb);
                                             if (iv != null) {
-                                                iv.setImageBitmap(bitmap);
+                                                Bitmap rightThumb=bitmap;
+                                                fingerprintImage.put("Right thumb",rightThumb);
+                                                iv.setImageBitmap(rightThumb);
                                             }
                                         }
                                     }
@@ -123,7 +138,7 @@ public class FingerPrintActivity extends AppCompatActivity {
         left_thumb_text.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                right_thumb= (ImageView) findViewById(R.id.right_Thumb);
+                Left_thumb= (ImageView) findViewById(R.id.Left_Thumb);
                 mBioMiniFactory = new BioMiniFactory(mainContext){
                     @Override
                     public void onDeviceChange(IUsbEventHandler.DeviceChangeEvent event, Object dev)
@@ -158,7 +173,7 @@ public class FingerPrintActivity extends AppCompatActivity {
                                     @Override
                                     public void run() {
                                         if (bitmap != null) {
-                                            ImageView iv = findViewById(R.id.right_Thumb);
+                                            ImageView iv = findViewById(R.id.Left_Thumb);
                                             if (iv != null) {
                                                 iv.setImageBitmap(bitmap);
                                             }
@@ -184,7 +199,7 @@ public class FingerPrintActivity extends AppCompatActivity {
         right_index_text.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                right_thumb= (ImageView) findViewById(R.id.right_Thumb);
+                right_index= (ImageView) findViewById(R.id.Right_Index);
                 mBioMiniFactory = new BioMiniFactory(mainContext){
                     @Override
                     public void onDeviceChange(IUsbEventHandler.DeviceChangeEvent event, Object dev)
@@ -218,7 +233,7 @@ public class FingerPrintActivity extends AppCompatActivity {
                                     @Override
                                     public void run() {
                                         if (bitmap != null) {
-                                            ImageView iv = findViewById(R.id.right_Thumb);
+                                            ImageView iv = findViewById(R.id.Right_Index);
                                             if (iv != null) {
                                                 iv.setImageBitmap(bitmap);
                                             }
@@ -244,7 +259,7 @@ public class FingerPrintActivity extends AppCompatActivity {
         left_index_text.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                right_thumb= (ImageView) findViewById(R.id.right_Thumb);
+                left_index= (ImageView) findViewById(R.id.Left_index);
                 mBioMiniFactory = new BioMiniFactory(mainContext){
                     @Override
                     public void onDeviceChange(IUsbEventHandler.DeviceChangeEvent event, Object dev)
@@ -279,7 +294,7 @@ public class FingerPrintActivity extends AppCompatActivity {
                                     @Override
                                     public void run() {
                                         if (bitmap != null) {
-                                            ImageView iv = findViewById(R.id.right_Thumb);
+                                            ImageView iv = findViewById(R.id.Left_index);
                                             if (iv != null) {
                                                 iv.setImageBitmap(bitmap);
                                             }
@@ -298,6 +313,128 @@ public class FingerPrintActivity extends AppCompatActivity {
                             }
 
                         }, true);
+                    }
+                };
+            }
+        });
+
+        Right_middle_text.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                right_middle= (ImageView) findViewById(R.id.Right_middle);
+                mBioMiniFactory = new BioMiniFactory(mainContext){
+                    @Override
+                    public void onDeviceChange(IUsbEventHandler.DeviceChangeEvent event, Object dev)
+                    {
+                        if (event== IUsbEventHandler.DeviceChangeEvent.DEVICE_ATTACHED && mCurrentDevice==null)
+                        {
+                            new Thread(new Runnable() {
+                                @Override
+                                public void run() {
+
+                                    int cnt=0;
+                                    while (mBioMiniFactory==null && cnt<20){
+                                        SystemClock.sleep(1000);
+                                        cnt++;
+                                    }
+                                    if (mBioMiniFactory!=null)
+                                    {
+                                        mCurrentDevice=mBioMiniFactory.getDevice(0);
+                                    }
+                                }
+                            }).start();
+                        }
+
+
+                        IBioMiniDevice.CaptureOption captureOption= new IBioMiniDevice.CaptureOption();
+                        captureOption.captureTemplate=true;
+
+                        mCurrentDevice.captureSingle(captureOption, new CaptureResponder() {
+                            @Override
+                            public boolean onCaptureEx(final Object o,final Bitmap bitmap,final IBioMiniDevice.TemplateData templateData,final IBioMiniDevice.FingerState fingerState) {
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        if (bitmap != null) {
+                                            ImageView iv = findViewById(R.id.Right_middle);
+                                            if (iv != null) {
+                                                iv.setImageBitmap(bitmap);
+                                            }
+                                        }
+                                    }
+                                });
+                                if (templateData!=null)
+                                {
+
+                                }
+                                else if
+                                (mCurrentDevice != null && event == IUsbEventHandler.DeviceChangeEvent.DEVICE_DETACHED && mCurrentDevice.isEqual(dev))
+                                {  mCurrentDevice = null; }
+                                return false;
+                            }
+
+                        },false);
+                    }
+                };
+            }
+        });
+
+        Left_middle_text.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                left_middle= (ImageView) findViewById(R.id.Left_middle);
+                mBioMiniFactory = new BioMiniFactory(mainContext){
+                    @Override
+                    public void onDeviceChange(IUsbEventHandler.DeviceChangeEvent event, Object dev)
+                    {
+                        if (event== IUsbEventHandler.DeviceChangeEvent.DEVICE_ATTACHED && mCurrentDevice==null)
+                        {
+                            new Thread(new Runnable() {
+                                @Override
+                                public void run() {
+
+                                    int cnt=0;
+                                    while (mBioMiniFactory==null && cnt<20){
+                                        SystemClock.sleep(1000);
+                                        cnt++;
+                                    }
+                                    if (mBioMiniFactory!=null)
+                                    {
+                                        mCurrentDevice=mBioMiniFactory.getDevice(0);
+                                    }
+                                }
+                            }).start();
+                        }
+
+
+                        IBioMiniDevice.CaptureOption captureOption= new IBioMiniDevice.CaptureOption();
+                        captureOption.captureTemplate=true;
+
+                        mCurrentDevice.captureSingle(captureOption, new CaptureResponder() {
+                            @Override
+                            public boolean onCaptureEx(final Object o,final Bitmap bitmap,final IBioMiniDevice.TemplateData templateData,final IBioMiniDevice.FingerState fingerState) {
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        if (bitmap != null) {
+                                            ImageView iv = findViewById(R.id.Left_middle);
+                                            if (iv != null) {
+                                                iv.setImageBitmap(bitmap);
+                                            }
+                                        }
+                                    }
+                                });
+                                if (templateData!=null)
+                                {
+
+                                }
+                                else if
+                                (mCurrentDevice != null && event == IUsbEventHandler.DeviceChangeEvent.DEVICE_DETACHED && mCurrentDevice.isEqual(dev))
+                                {  mCurrentDevice = null; }
+                                return false;
+                            }
+
+                        },false);
                     }
                 };
             }
