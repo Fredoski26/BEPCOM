@@ -9,6 +9,7 @@ import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.SystemClock;
+import android.util.Base64;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -18,8 +19,13 @@ import com.suprema.CaptureResponder;
 import com.suprema.IBioMiniDevice;
 import com.suprema.IUsbEventHandler;
 
+import org.json.JSONObject;
+
+import java.io.ByteArrayOutputStream;
 import java.util.Dictionary;
 import java.util.Hashtable;
+import java.util.Map;
+
 
 public class FingerPrintActivity extends AppCompatActivity {
     AppCompatButton exit;
@@ -110,7 +116,12 @@ public class FingerPrintActivity extends AppCompatActivity {
                                             ImageView iv = findViewById(R.id.right_Thumb);
                                             if (iv != null) {
                                                 Bitmap rightThumb=bitmap;
-                                                fingerprintImage.put("Right thumb",rightThumb);
+                                                fingerprintImage.put("Right_thumb",rightThumb);
+                                                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                                                bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+                                                byte[] byteArray = byteArrayOutputStream.toByteArray();
+                                                String right_thumb= Base64.encodeToString(byteArray, Base64.DEFAULT);
+                                                fingerBase64.put("Right_thumb",right_thumb);
                                                 iv.setImageBitmap(rightThumb);
                                             }
                                         }
@@ -175,7 +186,14 @@ public class FingerPrintActivity extends AppCompatActivity {
                                         if (bitmap != null) {
                                             ImageView iv = findViewById(R.id.Left_Thumb);
                                             if (iv != null) {
-                                                iv.setImageBitmap(bitmap);
+                                                Bitmap LeftThumb=bitmap;
+                                                fingerprintImage.put("Left_thumb",LeftThumb);
+                                                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                                                bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+                                                byte[] byteArray = byteArrayOutputStream.toByteArray();
+                                                String Left_thumb= Base64.encodeToString(byteArray, Base64.DEFAULT);
+                                                fingerBase64.put("Left_thumb",Left_thumb);
+                                                iv.setImageBitmap(LeftThumb);
                                             }
                                         }
                                     }
@@ -235,6 +253,12 @@ public class FingerPrintActivity extends AppCompatActivity {
                                         if (bitmap != null) {
                                             ImageView iv = findViewById(R.id.Right_Index);
                                             if (iv != null) {
+                                                fingerprintImage.put("right_Index",bitmap);
+                                                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                                                bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+                                                byte[] byteArray = byteArrayOutputStream.toByteArray();
+                                                String right_Index= Base64.encodeToString(byteArray, Base64.DEFAULT);
+                                                fingerBase64.put("right_Index",right_Index);
                                                 iv.setImageBitmap(bitmap);
                                             }
                                         }
@@ -296,6 +320,12 @@ public class FingerPrintActivity extends AppCompatActivity {
                                         if (bitmap != null) {
                                             ImageView iv = findViewById(R.id.Left_index);
                                             if (iv != null) {
+                                                fingerprintImage.put("Left_index",bitmap);
+                                                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                                                bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+                                                byte[] byteArray = byteArrayOutputStream.toByteArray();
+                                                String left_index= Base64.encodeToString(byteArray, Base64.DEFAULT);
+                                                fingerBase64.put("left_index",left_index);
                                                 iv.setImageBitmap(bitmap);
                                             }
                                         }
@@ -358,6 +388,12 @@ public class FingerPrintActivity extends AppCompatActivity {
                                         if (bitmap != null) {
                                             ImageView iv = findViewById(R.id.Right_middle);
                                             if (iv != null) {
+                                                fingerprintImage.put("right_middle",bitmap);
+                                                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                                                bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+                                                byte[] byteArray = byteArrayOutputStream.toByteArray();
+                                                String right_middle= Base64.encodeToString(byteArray, Base64.DEFAULT);
+                                                fingerBase64.put("right_middle",right_middle);
                                                 iv.setImageBitmap(bitmap);
                                             }
                                         }
@@ -419,6 +455,12 @@ public class FingerPrintActivity extends AppCompatActivity {
                                         if (bitmap != null) {
                                             ImageView iv = findViewById(R.id.Left_middle);
                                             if (iv != null) {
+                                                fingerprintImage.put("Left_middle",bitmap);
+                                                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                                                bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+                                                byte[] byteArray = byteArrayOutputStream.toByteArray();
+                                                String Left_middle= Base64.encodeToString(byteArray, Base64.DEFAULT);
+                                                fingerBase64.put("Left_middle",Left_middle);
                                                 iv.setImageBitmap(bitmap);
                                             }
                                         }
@@ -440,4 +482,11 @@ public class FingerPrintActivity extends AppCompatActivity {
             }
         });
     }
+
+    private String convertJson(Map<String,String> dictionary){
+        JSONObject jsonObject = new JSONObject(dictionary);
+        String jsonString = jsonObject.toString();
+        return jsonString;
+    }
+
 }
