@@ -15,7 +15,7 @@ import retrofit2.http.POST;
 public interface ApiInterface {
     String Authentication = "authorization";
     @POST("api/v1/enroll")
-    Call<FingerprintModel> getFingerprint(@Body JsonObject data);
+    Call<JsonObject> getFingerprint(@Body JsonObject data);
 
     @POST("api/v1/uploadPassport")
     Call<PassportModel> getPassport(@Body JsonObject data);

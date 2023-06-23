@@ -8,10 +8,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.core.content.ContextCompat;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.SystemClock;
+import android.service.autofill.UserData;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
@@ -35,6 +37,7 @@ import com.suprema.IUsbEventHandler;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
 import java.util.Dictionary;
 import java.util.HashMap;
 import java.util.Hashtable;
@@ -49,6 +52,7 @@ public class FingerPrintActivity extends AppCompatActivity {
     AppCompatButton exit, done;
     private BioMiniFactory mBioMiniFactory = null;
     private IBioMiniDevice mCurrentDevice = null;
+    public static Bitmap bitmap;
 
     ProgressBar progressBar;
     ImageView right_thumb;
@@ -64,6 +68,7 @@ public class FingerPrintActivity extends AppCompatActivity {
     Button left_index_text;
 
 
+
     Button Left_middle_text;
     Button Right_middle_text;
     private FingerPrintActivity mainContext;
@@ -77,10 +82,39 @@ public class FingerPrintActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_finger_print);
         getWindow().setStatusBarColor(ContextCompat.getColor(FingerPrintActivity.this, R.color.colorPrimary));
+
         inits();
+        //TemplateData templateData = scanner.extract(fingerprintImage);
+
+        CaptureResponder capResponder= new CaptureResponder() {
+            @Override
+            public boolean onCaptureEx(Object o, Bitmap bitmap, IBioMiniDevice.TemplateData templateData, IBioMiniDevice.FingerState fingerState) {
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (bitmap != null) {
+                            ImageView iv = findViewById(R.id.Left_Thumb);
+                            if (iv != null) {
+                                Bitmap LeftThumb = bitmap;
+                                fingerprintImage.put("Left_thumb", LeftThumb);
+                                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                                bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+                                byte[] byteArray = byteArrayOutputStream.toByteArray();
+                                String Left_thumb = Base64.encodeToString(byteArray, Base64.DEFAULT);
+                                fingerBase64.put("Left_thumb", Left_thumb);
+                                iv.setImageBitmap(LeftThumb);
+                            }
+                        }
+                    }
+                });
+                return true;
+            }
+        };
     }
 
     private void inits() {
+
         exit = (AppCompatButton) findViewById(R.id.exit);
         done = findViewById(R.id.done);
         progressBar = findViewById(R.id.progressBar);
@@ -92,13 +126,15 @@ public class FingerPrintActivity extends AppCompatActivity {
         Left_middle_text = (Button) findViewById(R.id.Left_middle_text);
         mainContext = this;
         boolean b = false;
-        exit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
-        right_thumb_text.setOnClickListener(new View.OnClickListener() {
+        exit.setOnClickListener(v ->{ startActivity(new Intent(getBaseContext(), HomeActivity.class)); finish();});
+
+        /*try {
+            getFingers();
+
+        }catch (Exception e){
+          Log.d(TAG,e.getMessage());
+        }*/
+        /*right_thumb_text.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 right_thumb = (ImageView) findViewById(R.id.right_Thumb);
@@ -163,7 +199,7 @@ public class FingerPrintActivity extends AppCompatActivity {
                 };
 
             }
-        });
+        });*/
 
         left_thumb_text.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -192,7 +228,6 @@ public class FingerPrintActivity extends AppCompatActivity {
 
                         IBioMiniDevice.CaptureOption captureOption = new IBioMiniDevice.CaptureOption();
                         captureOption.captureTemplate = true;
-
                         mCurrentDevice.captureSingle(captureOption, new CaptureResponder() {
                             @Override
                             public boolean onCaptureEx(final Object o, final Bitmap bitmap, final IBioMiniDevice.TemplateData templateData, final IBioMiniDevice.FingerState fingerState) {
@@ -483,8 +518,11 @@ public class FingerPrintActivity extends AppCompatActivity {
 
         done.setOnClickListener(v -> {
 
-           // apiFingerPrintUpload();
+            apiFingerPrintUpload();
         });
+    }
+
+    private void getFingers() {
     }
 
 
@@ -508,34 +546,42 @@ public class FingerPrintActivity extends AppCompatActivity {
         JsonObject object = new JsonObject();
         object.addProperty("file_number", Constant.fileNumber);
         object.addProperty("fingerprints", imageBase64);
-        object.addProperty("fingerprint_images", fingerprintImage.toString());
+        object.addProperty("fingerprint_images", dataImage);
 
          progressBar.setVisibility(View.VISIBLE);
-        final Call<FingerprintModel> fingerprintModel = api.getFingerprint(object);
+        final Call<JsonObject> fingerprintModel = api.getFingerprint(object);
 
-        fingerprintModel.enqueue(new Callback<FingerprintModel>() {
+        fingerprintModel.enqueue(new Callback<JsonObject>() {
             @Override
-            public void onResponse(@NonNull Call<FingerprintModel> call, @NonNull Response<FingerprintModel> response) {
+            public void onResponse(@NonNull Call<JsonObject> call, @NonNull Response<JsonObject> response) {
+                Log.d(TAG,"finger"+response);
+                Log.d(TAG,"finger"+imageBase64);
+                Log.d(TAG,"finger"+dataImage);
+                Log.d(TAG,"finger"+Constant.fileNumber);
                 if (response.isSuccessful() && response.errorBody() == null) {
                     if (response.code() == 200) {
                         Toast.makeText(FingerPrintActivity.this, "We are all good", Toast.LENGTH_SHORT).show();
+                        /*startActivity(new Intent(getBaseContext(), HomeActivity.class));
+                        finish();*/
                     } else {
-                        Toast.makeText(mainContext, "Something went wrong! please try again", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mainContext, "Check if everything is okay! then try again", Toast.LENGTH_SHORT).show();
 
                     }
 
-                    if (response.code() == 422) {
-                        done.setVisibility(View.VISIBLE);
-                        progressBar.setVisibility(View.GONE);
-                        Toast.makeText(mainContext, "Something went wrong! please try again", Toast.LENGTH_SHORT).show();
 
-                    }
+                }
+
+                if (response.code() == 422) {
+                    done.setVisibility(View.VISIBLE);
+                    progressBar.setVisibility(View.GONE);
+                    Toast.makeText(mainContext, "Something went wrong! please try again", Toast.LENGTH_SHORT).show();
+
                 }
 
             }
 
             @Override
-            public void onFailure(@NonNull Call<FingerprintModel> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<JsonObject> call, @NonNull Throwable t) {
                 Toast.makeText(mainContext, "Something went wrong! please try again", Toast.LENGTH_SHORT).show();
                 t.printStackTrace();
                 Log.d("Throwable  ------- > ", t.toString());
