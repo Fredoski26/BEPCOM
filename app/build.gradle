@@ -59,6 +59,7 @@ dependencies {
     implementation 'com.google.android.material:material:1.5.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation files('/Users/nugigroup/Documents/libBioMini_v20.aar')
+    implementation files('/Users/nugigroup/Downloads/telpo_api.jar')
     //implementation 'androidx.core:core-ktx:+'
     testImplementation 'junit:junit:4.13.2'
     implementation 'androidx.multidex:multidex:2.0.1'
@@ -70,6 +71,7 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
     implementation 'com.google.code.gson:gson:2.8.6'
     implementation 'org.json:json:20210307'
+    implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation 'com.squareup.okhttp3:logging-interceptor:4.2.2'
     implementation 'com.squareup.retrofit2:converter-gson:2.6.1'
